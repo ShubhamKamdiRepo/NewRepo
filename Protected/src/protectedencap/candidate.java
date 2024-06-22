@@ -1,6 +1,7 @@
 package protectedencap;
 
-// this candidate protected V 1.0
+//this candidate protected V 1.1
+
 public class candidate extends College {
 
 	public static void main(String[] args) {
@@ -15,4 +16,3 @@ public class candidate extends College {
 	}
 
 }
-
