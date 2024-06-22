@@ -11,7 +11,7 @@ public class candidate extends College {
 		
 		field.stream = " Computer Science and Engineering Technology";
 		field.console();
-		
+		 
 	
 	}
 
