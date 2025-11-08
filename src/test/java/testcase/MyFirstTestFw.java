@@ -1,21 +1,35 @@
 package testcase;
 
-import org.openqa.selenium.By;
+import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
+import org.openqa.selenium.By;
+
 import base.BaseTest;
 
 public class MyFirstTestFw extends BaseTest {
 
-@Test
-	public static void LoginTest()  {
-		driver.get("https://www.zoho.com"); //properties
-		
-		driver.findElement(By.linkText("Sign In")).click();
-		driver.findElement(By.id("login_id")).sendKeys("ideam9363@gmail.com");
-		driver.findElement(By.id("nextbtn")).click();
-	
+	@Test(dataProvider = "testdata")
+	public static void LoginTest(String username, String password) throws InterruptedException {
 
-		driver.findElement(By.id("password")).sendKeys("Mandar@#9766");
-		driver.findElement(By.xpath("//button[@id='nextbtn']//span[contains(text(),'Sign in')]")).click();
+		System.out.println("Clicked successfully");
+		driver.manage().window().maximize();
+		Thread.sleep(4000);
+//		driver.findElement(By.linkText("Sign In")).click();
+		driver.findElement(By.linkText(Loc.getProperty("signin_link"))).click();
+		Thread.sleep(4000);
+		driver.findElement(By.id(Loc.getProperty("email_field"))).sendKeys(username);
+		driver.findElement(By.xpath(Loc.getProperty("next_button"))).click();
+		Thread.sleep(4000);
+		driver.findElement(By.xpath(Loc.getProperty("pwd_field"))).sendKeys(password);
+		Thread.sleep(4000);
+		driver.findElement(By.xpath(Loc.getProperty("signin_login"))).click();
+	}
+
+	@DataProvider(name = "testdata")
+	public Object[][] createData() {
+		return new Object[][] { 
+				 { "ideam363@gmail.com", "Mandar@9766" },
+				{ "ideam963@gmail.com", "andar@#9766" },
+				{ "ideam9363@gmail.com", "Mandar@#9766" } };
 	}
 }

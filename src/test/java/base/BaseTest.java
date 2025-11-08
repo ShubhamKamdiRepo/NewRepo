@@ -11,35 +11,41 @@ import org.openqa.selenium.firefox.FirefoxDriver;
 import io.github.bonigarcia.wdm.WebDriverManager;
 import org.testng.annotations.*;
 
-
 public class BaseTest {
 
 	public static WebDriver driver;
 	public static Properties prop = new Properties();
+	public static Properties Loc = new Properties();
 	public static FileReader fr;
-	
-	@BeforeTest
+	public static FileReader fr1;
+
+	@BeforeMethod
 	public void setUp() throws IOException {
 		if (driver == null) {
-			FileReader fr = new FileReader(
-					"C:\\Users\\Shubham-PC\\eclipse-workspace\\TestAutomationFramwork\\src\\test\\resources\\configfiles\\config.properties");
+
+//			FileReader fr = new FileReader("C:\\Users\\Shubham-PC\\eclipse-workspace\\TestAutomationFramwork\\src\\test\\resources\\configfiles\\config.properties");
+			fr = new FileReader(
+					System.getProperty("user.dir") + "\\src\\test\\resources\\configfiles\\config.properties");
+			fr1 = new FileReader(
+					System.getProperty("user.dir") + "\\src\\test\\resources\\configfiles\\locaters.properties");
 			prop.load(fr);
+			Loc.load(fr1);
 		}
 
 		if (prop.getProperty("browser").equalsIgnoreCase("chrome")) {
 			WebDriverManager.chromedriver().setup(); // base
-			WebDriver driver = new ChromeDriver(); // base
+			driver = new ChromeDriver(); // base
 			driver.get(prop.getProperty("testurl")); // properties
 		}
 
 		else if (prop.getProperty("browser").equalsIgnoreCase("firefox")) {
 			WebDriverManager.firefoxdriver().setup();
-			WebDriver driver = new FirefoxDriver();
+			driver = new FirefoxDriver();
 			driver.get(prop.getProperty("testurl")); // properties
 		}
 	}
 
-	@AfterTest
+	@AfterMethod
 	public void tearDown() {
 		driver.close();
 		System.out.println("Teardown succesfully");
